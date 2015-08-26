@@ -1,0 +1,18 @@
+{
+    "name": "pmg/queue-tactician",
+    "description": "Run your asynchronous jobs with Tactician",
+    "keywords": ["commandbus", "queue"],
+    "license": "Apache-2.0",
+    "require": {
+        "pmg/queue": "~2.0",
+        "league/tactician": "~0.6"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "PMG\\Queue\\Tactician\\": "src/"
+        }
+    }
+}
