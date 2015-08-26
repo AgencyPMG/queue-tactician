@@ -94,7 +94,7 @@ $differentBus = new CommandBus([
     new CommandHandlerMiddleware(/*...*/),
 ]);
 
-$resolver = new SimpleResolver(function (Message $message) use ($differentBus)
+$resolver = new SimpleResolver(function (Message $message) use ($differentBus) {
     // no need to wrap here
     $differentBus->handle($message);
 });
@@ -106,4 +106,5 @@ $consumer->run();
 ```
 
 There's no message handlers in this library because
-`PMG\Queue\Executor\ForkingExecutor` makes it difficult to ensure safety.
+`PMG\Queue\Executor\ForkingExecutor` makes it difficult to ensure safety (what
+needs to be restarted between commands).
