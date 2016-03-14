@@ -4,20 +4,21 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "03dcf0b7a23a6c37d38ce45038b44da4",
+    "hash": "b7866d872f8bbf79be4b1b8383a158bf",
+    "content-hash": "2e02d860d6831e49b3f7cce9e4f02d7a",
     "packages": [
         {
             "name": "league/tactician",
-            "version": "v0.6.1",
+            "version": "v1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/tactician.git",
-                "reference": "5313db226bf4e236faf8e5bb2a79203b78a9ae41"
+                "reference": "1f3aaad497f07a8bef147a37c7e3f2f7c23fcd21"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/tactician/zipball/5313db226bf4e236faf8e5bb2a79203b78a9ae41",
-                "reference": "5313db226bf4e236faf8e5bb2a79203b78a9ae41",
+                "url": "https://api.github.com/repos/thephpleague/tactician/zipball/1f3aaad497f07a8bef147a37c7e3f2f7c23fcd21",
+                "reference": "1f3aaad497f07a8bef147a37c7e3f2f7c23fcd21",
                 "shasum": ""
             },
             "require": {
@@ -31,7 +32,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.7-dev"
+                    "dev-master": "2.0-dev"
                 }
             },
             "autoload": {
@@ -55,7 +56,7 @@
                 "command bus",
                 "service layer"
             ],
-            "time": "2015-08-02 09:13:42"
+            "time": "2016-02-20 11:14:36"
         },
         {
             "name": "pmg/queue",
