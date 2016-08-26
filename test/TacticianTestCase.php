@@ -19,7 +19,7 @@ use League\Tactician\Handler\MethodNameInflector\HandleInflector;
 
 abstract class TacticianTestCase extends \PHPUnit_Framework_TestCase
 {
-    protected static function createHandlerMiddlware(array $handlers)
+    protected static function createHandlerMiddleware(array $handlers)
     {
         return new CommandHandlerMiddleware(
             new ClassNameExtractor(),

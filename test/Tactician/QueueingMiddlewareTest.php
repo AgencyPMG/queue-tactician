@@ -62,7 +62,7 @@ class QueueingMiddlewareTest extends \PMG\Queue\TacticianTestCase
         $this->producer = $this->createMock(Producer::class);
         $this->bus = new CommandBus([
             new QueueingMiddleware($this->producer),
-            self::createHandlerMiddlware([
+            self::createHandlerMiddleware([
                 NotMessage::class       => $this->handler,
                 IsMessage::class        => $this->handler,
             ]),
