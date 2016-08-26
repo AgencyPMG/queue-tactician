@@ -22,7 +22,7 @@ use PMG\Queue\Tactician\Fixtures\DummyHandler;
 use PMG\Queue\Tactician\Fixtures\NotMessage;
 use PMG\Queue\Tactician\Fixtures\IsMessage;
 
-class QueueingMiddlewareTest extends TestCase
+class QueueingMiddlewareTest extends \PHPUnit_Framework_TestCase
 {
     private $producer, $handler, $bus;
 
@@ -63,7 +63,7 @@ class QueueingMiddlewareTest extends TestCase
     protected function setUp()
     {
         $this->handler = new DummyHandler();
-        $this->producer = $this->getMock(Producer::class);
+        $this->producer = $this->createMock(Producer::class);
         $this->bus = new CommandBus([
             new QueueingMiddleware($this->producer),
             new CommandHandlerMiddleware(
