@@ -101,10 +101,8 @@ The shared instance of the command bus means that it's very likely that things
 like open database connections will cause issues if/when a child press is forked
 to handle messages.
 
-Instead, use the `CallableHandler` above and create a new command bus each time.
-If your command bus has the `QueueingMiddleware` installed, you'll need to wrap
-the incoming messages with `QueuedCommand` which prevents the message from going
-right back in the queue.
+Instead a better bet is to create a new command bus for each message.
+`CreatingTacticianHandler` can do that for you.
 
 ```php
 use League\Tactician\CommandBus;
@@ -113,17 +111,14 @@ use PMG\Queue\Message;
 use PMG\Queue\Handler\CallableHandler;
 use PMG\Queue\Tactician\QueuedCommand;
 use PMG\Queue\Tactician\QueueingMiddleware;
+use PMG\Queue\Handler\CreatingTacticianHandler;
 
-function createCommandBus() {
-    return new CommadnBus([
+$handler = new CreatingTacticianHandler(function () {
+    // this is invoked for every message
+    return new CommandBus([
         new QueueingMiddleware(createAProduerSomehow()),
         new CommandHandlerMiddlware(/* ... */)
     ]);
-}
-
-$handler = new CallableHandler(function (Message $message) {
-    $bus = createCommandBus();
-    return $bus->handle(new QueuedCommand($message));
 });
 
 /** @var PMG\Queue\Driver $driver */
