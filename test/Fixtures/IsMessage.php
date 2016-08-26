@@ -10,14 +10,14 @@
  * @license     http://opensource.org/licenses/Apache-2.0 Apache-2.0
  */
 
-namespace PMG\Queue\Tactician\Fixtures;
+namespace PMG\Queue\Fixtures;
 
-class DummyHandler
+use PMG\Queue\Message;
+
+class IsMessage implements Message
 {
-    public $command;
-
-    public function handle($command)
+    public function getName()
     {
-        $this->command = $command;
+        return __CLASS__;
     }
 }

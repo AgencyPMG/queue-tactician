@@ -10,14 +10,9 @@
  * @license     http://opensource.org/licenses/Apache-2.0 Apache-2.0
  */
 
-namespace PMG\Queue\Tactician\Fixtures;
+namespace PMG\Queue\Fixtures;
 
-use PMG\Queue\Message;
-
-class IsMessage implements Message
+class NotMessage
 {
-    public function getName()
-    {
-        return __CLASS__;
-    }
+
 }

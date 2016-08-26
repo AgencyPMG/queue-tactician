@@ -13,16 +13,12 @@
 namespace PMG\Queue\Tactician;
 
 use League\Tactician\CommandBus;
-use League\Tactician\Handler\CommandHandlerMiddleware;
-use League\Tactician\Handler\CommandNameExtractor\ClassNameExtractor;
-use League\Tactician\Handler\Locator\InMemoryLocator;
-use League\Tactician\Handler\MethodNameInflector\HandleInflector;
 use PMG\Queue\Producer;
-use PMG\Queue\Tactician\Fixtures\DummyHandler;
-use PMG\Queue\Tactician\Fixtures\NotMessage;
-use PMG\Queue\Tactician\Fixtures\IsMessage;
+use PMG\Queue\Fixtures\DummyHandler;
+use PMG\Queue\Fixtures\NotMessage;
+use PMG\Queue\Fixtures\IsMessage;
 
-class QueueingMiddlewareTest extends \PHPUnit_Framework_TestCase
+class QueueingMiddlewareTest extends \PMG\Queue\TacticianTestCase
 {
     private $producer, $handler, $bus;
 
@@ -66,14 +62,10 @@ class QueueingMiddlewareTest extends \PHPUnit_Framework_TestCase
         $this->producer = $this->createMock(Producer::class);
         $this->bus = new CommandBus([
             new QueueingMiddleware($this->producer),
-            new CommandHandlerMiddleware(
-                new ClassNameExtractor(),
-                new InMemoryLocator([
-                    NotMessage::class       => $this->handler,
-                    IsMessage::class        => $this->handler,
-                ]),
-                new HandleInflector()
-            )
+            self::createHandlerMiddlware([
+                NotMessage::class       => $this->handler,
+                IsMessage::class        => $this->handler,
+            ]),
         ]);
     }
 }
