@@ -2,6 +2,7 @@
 /web/bundles
 /coverage
 /phpunit.xml
+/composer.lock
 
 *.pyc
 *.swp

@@ -11,4 +11,4 @@
  */
 
 $loader = require __DIR__.'/../vendor/autoload.php';
-$loader->addPsr4('PMG\\Queue\\Tactician\\', __DIR__);
+$loader->addPsr4('PMG\\Queue\\', __DIR__);
