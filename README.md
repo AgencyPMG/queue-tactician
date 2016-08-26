@@ -54,57 +54,80 @@ $bus->handle(new DoLongRunningStuff());
 
 ## Dequeueing (Consuming) Commands
 
-On the other side of the coin, the commands that come out of the queue will
-still implement message. Using them with the same command bus directly would
-mean that they just go right back into the queue. To get around that, wrap
-messages with a `QueuedCommand` in your handler.
+
+To use tactician to process the messages via the consumer, use
+`PMG\Queue\Handler\TacticianHandler`.
 
 ```php
 use PMG\Queue\DefaultConsumer;
-use PMG\Queue\Message;
-use PMG\Queue\Resolver\SimpleResolver;
-use PMG\Queue\Resolver\SimpleExecutor;
-use PMG\Queue\Tactician\QueuedCommand;
+use PMG\Queue\Handler\TacticianHandler;
 
-// $bus is the command bus we created above
-$resolver = new SimpleResolver(function (Message $message) use ($bus) {
-    // wrap up the message from the queue with `QueuedCommand`
-    $bus->handle(new QueuedCommand($message));
-});
+/** @var League\Tactician\CommandBus $bus */
+$handler = new TacticianHandler($bus);
 
 /** @var PMG\Queue\Driver $driver */
-$consumer = new DefaultConsumer($driver, new SimpleExecutor($resolver));
+$consumer = new DefaultConsumer($driver, $handler);
 
 $consumer->run();
 ```
 
-The other option is to use a completely separate command bus -- one that doesn't
-have the `QueueingMiddleware`.
+The above assumes that the `CommandBus` instance still has the
+`QueueingMiddleware` installed. If not, you'll need to use your own handler that
+invokes the command bus, perhaps via `CallableHandler`.
 
 ```php
 use League\Tactician\CommandBus;
 use League\Tactician\Handler\CommandHandlerMiddleware;
 use PMG\Queue\DefaultConsumer;
 use PMG\Queue\Message;
-use PMG\Queue\Resolver\SimpleResolver;
-use PMG\Queue\Resolver\SimpleExecutor;
+use PMG\Queue\Handler\CallableHandler;
 
 // no QueueingMiddleware!
 $differentBus = new CommandBus([
     new CommandHandlerMiddleware(/*...*/),
 ]);
 
-$resolver = new SimpleResolver(function (Message $message) use ($differentBus) {
-    // no need to wrap here
-    $differentBus->handle($message);
-});
+$handler = new CallableHandler([$bus, 'handle']);
 
 /** @var PMG\Queue\Driver $driver */
-$consumer = new DefaultConsumer($driver, new SimpleExecutor($resolver));
+$consumer = new DefaultConsumer($driver, $handler);
 
 $consumer->run();
 ```
 
-There's no message handlers in this library because
-`PMG\Queue\Executor\ForkingExecutor` makes it difficult to ensure safety (what
-needs to be restarted between commands).
+## Beware of Wrapping This Handler with `PcntlForkingHandler`
+
+The shared instance of the command bus means that it's very likely that things
+like open database connections will cause issues if/when a child press is forked
+to handle messages.
+
+Instead, use the `CallableHandler` above and create a new command bus each time.
+If your command bus has the `QueueingMiddleware` installed, you'll need to wrap
+the incoming messages with `QueuedCommand` which prevents the message from going
+right back in the queue.
+
+```php
+use League\Tactician\CommandBus;
+use League\Tactician\Handler\CommandHandlerMiddleware;
+use PMG\Queue\Message;
+use PMG\Queue\Handler\CallableHandler;
+use PMG\Queue\Tactician\QueuedCommand;
+use PMG\Queue\Tactician\QueueingMiddleware;
+
+function createCommandBus() {
+    return new CommadnBus([
+        new QueueingMiddleware(createAProduerSomehow()),
+        new CommandHandlerMiddlware(/* ... */)
+    ]);
+}
+
+$handler = new CallableHandler(function (Message $message) {
+    $bus = createCommandBus();
+    return $bus->handle(new QueuedCommand($message));
+});
+
+/** @var PMG\Queue\Driver $driver */
+$consumer = new DefaultConsumer($driver, $handler);
+
+$consumer->run();
+```
