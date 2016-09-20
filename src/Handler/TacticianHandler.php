@@ -39,6 +39,7 @@ final class TacticianHandler implements MessageHandler
      */
     public function handle(Message $message, array $options=[])
     {
-        return $this->tactician->handle(new QueuedCommand($message));
+        $this->tactician->handle(new QueuedCommand($message));
+        return true;
     }
 }
