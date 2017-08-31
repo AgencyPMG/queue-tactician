@@ -42,9 +42,9 @@ final class TacticianHandler implements MessageHandler
     public function handle(Message $message, array $options=[]) : PromiseInterface
     {
         $promise = new Promise(function () use (&$promise, $message) {
-            $promise->resolve($this->tactician->handle(new QueuedCommand(
-                $message
-            )));
+            $result = $this->tactician->handle(new QueuedCommand($message));
+
+            $promise->resolve($result ?: true);
         });
 
         return $promise;

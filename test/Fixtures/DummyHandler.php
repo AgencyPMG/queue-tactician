@@ -15,9 +15,11 @@ namespace PMG\Queue\Fixtures;
 class DummyHandler
 {
     public $command;
+    public $returnValue;
 
     public function handle($command)
     {
         $this->command = $command;
+        return $this->returnValue;
     }
 }

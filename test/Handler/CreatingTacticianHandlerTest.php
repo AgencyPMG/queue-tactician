@@ -41,6 +41,45 @@ class CreatingTacticianHandlerTest extends \PMG\Queue\TacticianTestCase
         $this->assertSame($commandHandler->command, $msg);
     }
 
+    public function testHandleResolveToTrueWhenTheHandlerDoesNotReturnATruthyValue()
+    {
+        $commandHandler = new DummyHandler();
+        $commandHandler->returnValue = null;
+        $handler = new CreatingTacticianHandler(function () use ($commandHandler) {
+            return new CommandBus([
+                new QueueingMiddleware($this->createMock(Producer::class)),
+                self::createHandlerMiddleware([
+                    IsMessage::class => $commandHandler,
+                ]),
+            ]);
+        });
+
+        $promise = $handler->handle(new IsMessage());
+        $result = $promise->wait();
+
+        $this->assertTrue($result);
+    }
+
+    public function testHandleResolveWithTheValueFromHandlerWhenTruthy()
+    {
+        $expected = new \stdClass();
+        $commandHandler = new DummyHandler();
+        $commandHandler->returnValue = $expected;
+        $handler = new CreatingTacticianHandler(function () use ($commandHandler) {
+            return new CommandBus([
+                new QueueingMiddleware($this->createMock(Producer::class)),
+                self::createHandlerMiddleware([
+                    IsMessage::class => $commandHandler,
+                ]),
+            ]);
+        });
+
+        $promise = $handler->handle(new IsMessage());
+        $result = $promise->wait();
+
+        $this->assertSame($expected, $result);
+    }
+
     public static function notCommandBuses()
     {
         return [

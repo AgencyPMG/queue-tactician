@@ -53,7 +53,9 @@ final class CreatingTacticianHandler implements MessageHandler
                 )));;
             }
 
-            $promise->resolve($bus->handle(new QueuedCommand($message)));
+            $result = $bus->handle(new QueuedCommand($message));
+
+            $promise->resolve($result ?: true);
         });
 
         return $promise;
