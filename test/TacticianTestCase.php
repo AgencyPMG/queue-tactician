@@ -17,7 +17,7 @@ use League\Tactician\Handler\CommandNameExtractor\ClassNameExtractor;
 use League\Tactician\Handler\Locator\InMemoryLocator;
 use League\Tactician\Handler\MethodNameInflector\HandleInflector;
 
-abstract class TacticianTestCase extends \PHPUnit_Framework_TestCase
+abstract class TacticianTestCase extends \PHPUnit\Framework\TestCase
 {
     protected static function createHandlerMiddleware(array $handlers)
     {

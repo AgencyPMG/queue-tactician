@@ -25,9 +25,31 @@ class TacticianHandlerTest extends \PMG\Queue\TacticianTestCase
 
     public function testHandleInvokesTheCommandBusWithAQueuedCommandThatsPasses()
     {
-        $this->handler->handle($msg = new IsMessage());
+        $promise = $this->handler->handle($msg = new IsMessage());
+        $promise->wait();
 
         $this->assertSame($this->commandHandler->command, $msg);
+    }
+
+    public function testHandleResolveToTrueWhenTheHandlerDoesNotReturnATruthyValue()
+    {
+        $this->commandHandler->returnValue = null;
+
+        $promise = $this->handler->handle(new IsMessage());
+        $result = $promise->wait();
+
+        $this->assertTrue($result);
+    }
+
+    public function testHandleResolveWithTheValueFromHandlerWhenTruthy()
+    {
+        $expected = new \stdClass();
+        $this->commandHandler->returnValue = $expected;
+
+        $promise = $this->handler->handle(new IsMessage());
+        $result = $promise->wait();
+
+        $this->assertSame($expected, $result);
     }
 
     protected function setUp()
