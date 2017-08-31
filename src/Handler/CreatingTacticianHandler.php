@@ -12,6 +12,8 @@
 
 namespace PMG\Queue\Handler;
 
+use GuzzleHttp\Promise\Promise;
+use GuzzleHttp\Promise\PromiseInterface;
 use League\Tactician\CommandBus;
 use PMG\Queue\Message;
 use PMG\Queue\MessageHandler;
@@ -38,18 +40,22 @@ final class CreatingTacticianHandler implements MessageHandler
     /**
      * {@inheritdoc}
      */
-    public function handle(Message $message, array $options=[])
+    public function handle(Message $message, array $options=[]) : PromiseInterface
     {
-        $bus = call_user_func($this->factory, $options);
-        if (!$bus instanceof CommandBus) {
-            throw new \UnexpectedValueException(sprintf(
-                '%s expected its factory to return an instance of %s, got "%s"',
-                __CLASS__,
-                CommandBus::class,
-                is_object($bus) ? get_class($bus) : gettype($bus)
-            ));
-        }
+        $promise = new Promise(function () use (&$promise, $message, $options) {
+            $bus = call_user_func($this->factory, $options);
+            if (!$bus instanceof CommandBus) {
+                return $promise->reject(new \UnexpectedValueException(sprintf(
+                    '%s expected its factory to return an instance of %s, got "%s"',
+                    __CLASS__,
+                    CommandBus::class,
+                    is_object($bus) ? get_class($bus) : gettype($bus)
+                )));;
+            }
 
-        return $bus->handle(new QueuedCommand($message));
+            $promise->resolve($bus->handle(new QueuedCommand($message)));
+        });
+
+        return $promise;
     }
 }

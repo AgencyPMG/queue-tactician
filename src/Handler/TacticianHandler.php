@@ -12,6 +12,8 @@
 
 namespace PMG\Queue\Handler;
 
+use GuzzleHttp\Promise\Promise;
+use GuzzleHttp\Promise\PromiseInterface;
 use League\Tactician\CommandBus;
 use PMG\Queue\Message;
 use PMG\Queue\MessageHandler;
@@ -37,8 +39,14 @@ final class TacticianHandler implements MessageHandler
     /**
      * {@inheritdoc}
      */
-    public function handle(Message $message, array $options=[])
+    public function handle(Message $message, array $options=[]) : PromiseInterface
     {
-        return $this->tactician->handle(new QueuedCommand($message));
+        $promise = new Promise(function () use (&$promise, $message) {
+            $promise->resolve($this->tactician->handle(new QueuedCommand(
+                $message
+            )));
+        });
+
+        return $promise;
     }
 }

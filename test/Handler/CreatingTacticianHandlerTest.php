@@ -35,7 +35,8 @@ class CreatingTacticianHandlerTest extends \PMG\Queue\TacticianTestCase
             ]);
         });
 
-        $handler->handle($msg = new IsMessage());
+        $promise = $handler->handle($msg = new IsMessage());
+        $promise->wait();
 
         $this->assertSame($commandHandler->command, $msg);
     }
@@ -64,6 +65,7 @@ class CreatingTacticianHandlerTest extends \PMG\Queue\TacticianTestCase
             return $bus;
         });
 
-        $handler->handle(new IsMessage());
+        $promise = $handler->handle(new IsMessage());
+        $promise->wait();
     }
 }
