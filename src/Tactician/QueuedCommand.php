@@ -12,8 +12,6 @@
 
 namespace PMG\Queue\Tactician;
 
-use PMG\Queue\Message;
-
 /**
  * Used to wrapped incoming commands. This exists so commands don't go into an
  * endless loop of queueing where the consumer dequeues the a command that
@@ -27,21 +25,19 @@ final class QueuedCommand
     /**
      * The wrapped command.
      *
-     * @var Message
+     * @var object
      */
     private $message;
 
-    public function __construct(Message $message)
+    public function __construct(object $message)
     {
         $this->message = $message;
     }
 
     /**
      * Pull the message out of the queued command.
-     *
-     * @return   Message
      */
-    public function unwrap()
+    public function unwrap() : object
     {
         return $this->message;
     }

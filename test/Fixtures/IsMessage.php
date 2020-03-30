@@ -16,7 +16,7 @@ use PMG\Queue\Message;
 
 class IsMessage implements Message
 {
-    public function getName()
+    public function getName() : string
     {
         return __CLASS__;
     }
