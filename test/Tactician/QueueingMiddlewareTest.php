@@ -56,7 +56,7 @@ class QueueingMiddlewareTest extends \PMG\Queue\TacticianTestCase
         $this->assertSame($command, $this->handler->command);
     }
 
-    protected function setUp()
+    protected function setUp() : void
     {
         $this->handler = new DummyHandler();
         $this->producer = $this->createMock(Producer::class);

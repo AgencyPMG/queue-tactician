@@ -52,7 +52,7 @@ class TacticianHandlerTest extends \PMG\Queue\TacticianTestCase
         $this->assertSame($expected, $result);
     }
 
-    protected function setUp()
+    protected function setUp() : void
     {
         $this->commandHandler = new DummyHandler();
         $this->bus = new CommandBus([
