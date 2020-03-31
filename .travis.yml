@@ -1,16 +1,12 @@
 language: php
 
 php:
-  - 7.0
-  - 7.1
+  - '7.3'
+  - '7.4'
 
 notifications:
-  email:
-    recipients:
-      - tech@pmg.com
-    on_success: change
-    on_failure: always
+  email: false
 
-install: composer install --prefer-source
+install: composer install
 
 script: make test

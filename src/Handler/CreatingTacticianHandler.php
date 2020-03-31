@@ -40,7 +40,7 @@ final class CreatingTacticianHandler implements MessageHandler
     /**
      * {@inheritdoc}
      */
-    public function handle(Message $message, array $options=[]) : PromiseInterface
+    public function handle(object $message, array $options=[]) : PromiseInterface
     {
         $promise = new Promise(function () use (&$promise, $message, $options) {
             $bus = call_user_func($this->factory, $options);
