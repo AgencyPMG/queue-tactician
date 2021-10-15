@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 5.1.0
+
+### Added
+
+- Added support for PHP 8.X
+
+### Changed
+
+- Dropped PHP 7.3 support
+
 ## 5.0.0
 
 Skipping versions to bring all of our pmg/queue libraries to a same major
