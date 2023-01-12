@@ -28,10 +28,13 @@ use PMG\Queue\Tactician\QueuedCommand;
 final class CreatingTacticianHandler implements MessageHandler
 {
     /**
-     * @var callable
+     * @var callable(): CommandBus
      */
     private $factory;
 
+    /**
+     * @param callable(): CommandBus $factory
+     */
     public function __construct(callable $factory)
     {
         $this->factory = $factory;

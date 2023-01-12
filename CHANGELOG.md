@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 6.0
+
+### Changed
+
+- Dropped support for PHP 7.4
+
 ## 5.1.0
 
 ### Added
