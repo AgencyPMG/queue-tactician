@@ -4,7 +4,7 @@
     "keywords": ["commandbus", "queue"],
     "license": "Apache-2.0",
     "require": {
-        "php": "^8.0",
+        "php": "^8.2",
         "pmg/queue": "^6.0",
         "league/tactician": "^1.0"
     },
