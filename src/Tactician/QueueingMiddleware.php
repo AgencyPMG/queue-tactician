@@ -36,6 +36,7 @@ final class QueueingMiddleware implements Middleware
 
     /**
      * {@inheritdoc}
+     * @return mixed
      */
     public function execute($command, callable $next)
     {
