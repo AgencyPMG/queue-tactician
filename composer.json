@@ -4,14 +4,14 @@
     "keywords": ["commandbus", "queue"],
     "license": "Apache-2.0",
     "require": {
-        "php": "^8.2",
+        "php": "^8.3",
         "pmg/queue": "^6.0",
         "league/tactician": "^1.0"
     },
     "require-dev": {
         "pmg/queue": "^6.0@beta",
         "phpunit/phpunit": "^9.5",
-        "symfony/phpunit-bridge": "^5.4"
+        "symfony/phpunit-bridge": "^6.4"
     },
     "autoload": {
         "psr-4": {
