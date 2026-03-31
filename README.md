@@ -107,13 +107,11 @@ Instead, create a new command bus for each message.
 ```php
 use League\Tactician\CommandBus;
 use League\Tactician\Handler\CommandHandlerMiddleware;
-use PMG\Queue\Message;
-use PMG\Queue\Handler\CallableHandler;
-use PMG\Queue\Tactician\QueuedCommand;
-use PMG\Queue\Tactician\QueueingMiddleware;
+use PMG\Queue\DefaultConsumer;
 use PMG\Queue\Handler\CreatingTacticianHandler;
+use PMG\Queue\Tactician\QueueingMiddleware;
 
-$handler = new CreatingTacticianHandler(function () {
+$handler = new CreatingTacticianHandler(function (array $_options = []) {
     // This is invoked for every message.
     return new CommandBus([
         new QueueingMiddleware(createAProducerSomehow()),

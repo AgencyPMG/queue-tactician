@@ -21,19 +21,19 @@ use PMG\Queue\Tactician\QueuedCommand;
 
 /**
  * Like `TacticianHandler`, but creates a new `CommandBus` for each message
- * via a callable.
+ * via a callable that receives the message options.
  *
  * @since 3.0
  */
 final class CreatingTacticianHandler implements MessageHandler
 {
     /**
-     * @var callable(): CommandBus
+     * @var callable(array): CommandBus
      */
     private $factory;
 
     /**
-     * @param callable(): CommandBus $factory
+     * @param callable(array): CommandBus $factory
      */
     public function __construct(callable $factory)
     {

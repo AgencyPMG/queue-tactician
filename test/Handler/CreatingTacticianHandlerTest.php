@@ -26,7 +26,7 @@ class CreatingTacticianHandlerTest extends \PMG\Queue\TacticianTestCase
     public function testHandleCreatesACommandBusAndPassesTheMessageToIt()
     {
         $commandHandler = new DummyHandler();
-        $handler = new CreatingTacticianHandler(function () use ($commandHandler) {
+        $handler = new CreatingTacticianHandler(function (array $_options = []) use ($commandHandler) {
             return new CommandBus([
                 new QueueingMiddleware($this->createMock(Producer::class)),
                 self::createHandlerMiddleware([
@@ -45,7 +45,7 @@ class CreatingTacticianHandlerTest extends \PMG\Queue\TacticianTestCase
     {
         $commandHandler = new DummyHandler();
         $commandHandler->returnValue = null;
-        $handler = new CreatingTacticianHandler(function () use ($commandHandler) {
+        $handler = new CreatingTacticianHandler(function (array $_options = []) use ($commandHandler) {
             return new CommandBus([
                 new QueueingMiddleware($this->createMock(Producer::class)),
                 self::createHandlerMiddleware([
@@ -65,7 +65,7 @@ class CreatingTacticianHandlerTest extends \PMG\Queue\TacticianTestCase
         $expected = new \stdClass();
         $commandHandler = new DummyHandler();
         $commandHandler->returnValue = $expected;
-        $handler = new CreatingTacticianHandler(function () use ($commandHandler) {
+        $handler = new CreatingTacticianHandler(function (array $_options = []) use ($commandHandler) {
             return new CommandBus([
                 new QueueingMiddleware($this->createMock(Producer::class)),
                 self::createHandlerMiddleware([
@@ -100,7 +100,7 @@ class CreatingTacticianHandlerTest extends \PMG\Queue\TacticianTestCase
     {
         $this->expectException(\UnexpectedValueException::class);
 
-        $handler = new CreatingTacticianHandler(function () use ($bus) {
+        $handler = new CreatingTacticianHandler(function (array $_options = []) use ($bus) {
             return $bus;
         });
 
