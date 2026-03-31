@@ -13,10 +13,10 @@
 namespace PMG\Queue\Tactician;
 
 /**
- * Used to wrapped incoming commands. This exists so commands don't go into an
- * endless loop of queueing where the consumer dequeues the a command that
- * implements `PMG\Queue\Message` from the backend and immediable puts it
- * back into the queue via `QueueingMiddleware`.
+ * Used to wrap incoming commands. This exists so commands do not enter an
+ * endless queueing loop where the consumer dequeues a command that implements
+ * `PMG\Queue\Message` from the backend and immediately puts it back into the
+ * queue via `QueueingMiddleware`.
  *
  * @since   1.0
  */

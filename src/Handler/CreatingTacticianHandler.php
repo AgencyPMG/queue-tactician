@@ -21,7 +21,7 @@ use PMG\Queue\Tactician\QueuedCommand;
 
 /**
  * Like `TacticianHandler`, but creates a new `CommandBus` for each message
- * via callable.
+ * via a callable.
  *
  * @since 3.0
  */

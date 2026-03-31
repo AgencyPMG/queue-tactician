@@ -23,7 +23,7 @@ class TacticianHandlerTest extends \PMG\Queue\TacticianTestCase
 {
     private $commandHandler, $bus, $handler;
 
-    public function testHandleInvokesTheCommandBusWithAQueuedCommandThatsPasses()
+    public function testHandleInvokesTheCommandBusWithTheQueuedCommandPayload()
     {
         $promise = $this->handler->handle($msg = new IsMessage());
         $promise->wait();
@@ -31,7 +31,7 @@ class TacticianHandlerTest extends \PMG\Queue\TacticianTestCase
         $this->assertSame($this->commandHandler->command, $msg);
     }
 
-    public function testHandleResolveToTrueWhenTheHandlerDoesNotReturnATruthyValue()
+    public function testHandleResolvesToTrueWhenTheHandlerDoesNotReturnATruthyValue()
     {
         $this->commandHandler->returnValue = null;
 
@@ -41,7 +41,7 @@ class TacticianHandlerTest extends \PMG\Queue\TacticianTestCase
         $this->assertTrue($result);
     }
 
-    public function testHandleResolveWithTheValueFromHandlerWhenTruthy()
+    public function testHandleResolvesWithTheValueFromHandlerWhenTruthy()
     {
         $expected = new \stdClass();
         $this->commandHandler->returnValue = $expected;

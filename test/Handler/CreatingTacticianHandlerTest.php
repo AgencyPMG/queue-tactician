@@ -23,7 +23,7 @@ class CreatingTacticianHandlerTest extends \PMG\Queue\TacticianTestCase
 {
     private $commandHandler, $bus, $handler;
 
-    public function testHandleCreatesACommandBusAndPassesOffTheMessage()
+    public function testHandleCreatesACommandBusAndPassesTheMessageToIt()
     {
         $commandHandler = new DummyHandler();
         $handler = new CreatingTacticianHandler(function () use ($commandHandler) {
@@ -41,7 +41,7 @@ class CreatingTacticianHandlerTest extends \PMG\Queue\TacticianTestCase
         $this->assertSame($commandHandler->command, $msg);
     }
 
-    public function testHandleResolveToTrueWhenTheHandlerDoesNotReturnATruthyValue()
+    public function testHandleResolvesToTrueWhenTheHandlerDoesNotReturnATruthyValue()
     {
         $commandHandler = new DummyHandler();
         $commandHandler->returnValue = null;
@@ -60,7 +60,7 @@ class CreatingTacticianHandlerTest extends \PMG\Queue\TacticianTestCase
         $this->assertTrue($result);
     }
 
-    public function testHandleResolveWithTheValueFromHandlerWhenTruthy()
+    public function testHandleResolvesWithTheValueFromHandlerWhenTruthy()
     {
         $expected = new \stdClass();
         $commandHandler = new DummyHandler();
