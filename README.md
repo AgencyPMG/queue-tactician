@@ -1,7 +1,8 @@
 # pmg/queue-tactician
 
-This is a middleware for [Tactician](http://tactician.thephpleague.com/) to
-integrate it with [pmg/queue](https://github.com/AgencyPMG/Queue).
+This middleware integrates
+[Tactician](http://tactician.thephpleague.com/) with
+[pmg/queue](https://github.com/AgencyPMG/Queue).
 
 ## Installation and Usage
 
@@ -11,7 +12,7 @@ Install with composer.
 composer require pmg/queue-tactician
 ```
 
-To use it, add the middleware to your middleware chain sometime before the
+To use it, add the middleware to your middleware chain somewhere before the
 default command handler middleware.
 
 ```php
@@ -31,8 +32,8 @@ $bus = new CommandBus([
 
 ## Enqueueing Commands
 
-Any command that implements `PMG\Queue\Message` will be put into the queue via
-the producer and no further middlewares will be called.
+Any command that implements `PMG\Queue\Message` will be sent to the queue via
+the producer, and no further middleware will be called.
 
 ```php
 use PMG\Queue\Message;
@@ -54,8 +55,7 @@ $bus->handle(new DoLongRunningStuff());
 
 ## Dequeueing (Consuming) Commands
 
-
-To use tactician to process the messages via the consumer, use
+To use Tactician to process messages via the consumer, use
 `PMG\Queue\Handler\TacticianHandler`.
 
 ```php
@@ -87,7 +87,7 @@ $differentBus = new CommandBus([
     new CommandHandlerMiddleware(/*...*/),
 ]);
 
-$handler = new CallableHandler([$bus, 'handle']);
+$handler = new CallableHandler([$differentBus, 'handle']);
 
 /** @var PMG\Queue\Driver $driver */
 $consumer = new DefaultConsumer($driver, $handler);
@@ -97,27 +97,25 @@ $consumer->run();
 
 ## Beware of Wrapping This Handler with `PcntlForkingHandler`
 
-The shared instance of the command bus means that it's very likely that things
-like open database connections will cause issues if/when a child press is forked
-to handle messages.
+Because the command bus instance is shared, resources like open database
+connections are likely to cause issues when a child process is forked to handle
+messages.
 
-Instead a better bet is to create a new command bus for each message.
+Instead, create a new command bus for each message.
 `CreatingTacticianHandler` can do that for you.
 
 ```php
 use League\Tactician\CommandBus;
 use League\Tactician\Handler\CommandHandlerMiddleware;
-use PMG\Queue\Message;
-use PMG\Queue\Handler\CallableHandler;
-use PMG\Queue\Tactician\QueuedCommand;
-use PMG\Queue\Tactician\QueueingMiddleware;
+use PMG\Queue\DefaultConsumer;
 use PMG\Queue\Handler\CreatingTacticianHandler;
+use PMG\Queue\Tactician\QueueingMiddleware;
 
-$handler = new CreatingTacticianHandler(function () {
-    // this is invoked for every message
+$handler = new CreatingTacticianHandler(function (array $_options = []) {
+    // This is invoked for every message.
     return new CommandBus([
-        new QueueingMiddleware(createAProduerSomehow()),
-        new CommandHandlerMiddlware(/* ... */)
+        new QueueingMiddleware(createAProducerSomehow()),
+        new CommandHandlerMiddleware(/* ... */)
     ]);
 });
 

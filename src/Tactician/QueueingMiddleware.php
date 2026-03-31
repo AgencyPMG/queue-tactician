@@ -17,7 +17,7 @@ use PMG\Queue\Message;
 use PMG\Queue\Producer;
 
 /**
- * A tactician middleware that sends any commands that implement
+ * A Tactician middleware that sends any commands that implement
  * `PMG\Queue\Message` to a queue backend.
  *
  * @since   1.0

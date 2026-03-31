@@ -6,7 +6,7 @@ inputs:
   php-version:
     required: false
     type: string
-    description: the php version to use, defaults to 8.4
+    description: The PHP version to use. Defaults to 8.4.
     default: '8.4'
 
 runs:

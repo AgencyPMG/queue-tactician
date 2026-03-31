@@ -34,7 +34,7 @@ class QueueingMiddlewareTest extends \PMG\Queue\TacticianTestCase
         $this->assertNull($this->handler->command, 'should not have called the handler');
     }
 
-    public function testMiddlwareUnwrapsQueuedCommandsAndSendsThemToTheNextMiddleware()
+    public function testMiddlewareUnwrapsQueuedCommandsAndSendsThemToTheNextMiddleware()
     {
         $command = new IsMessage();
         $this->producer->expects($this->never())
@@ -45,7 +45,7 @@ class QueueingMiddlewareTest extends \PMG\Queue\TacticianTestCase
         $this->assertSame($command, $this->handler->command);
     }
 
-    public function testMiddlewareIgnoreNonMessageOrQueuedCommands()
+    public function testMiddlewareIgnoresCommandsThatAreNeitherMessagesNorQueued()
     {
         $command = new NotMessage();
         $this->producer->expects($this->never())

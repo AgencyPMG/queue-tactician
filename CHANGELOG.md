@@ -21,7 +21,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## 5.0.0
 
-Skipping versions to bring all of our pmg/queue libraries to a same major
+Skipping versions to bring all of our pmg/queue libraries to the same major
 version number.
 
 ### Changed
@@ -32,7 +32,7 @@ version number.
 
 ### Changed
 
-- [BC BREAK] The library now requires tactician ~1.0
+- [BC BREAK] The library now requires Tactician ~1.0
 
 ### Fixed
 
